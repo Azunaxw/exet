@@ -1,5 +1,42 @@
 # Changelog
 
+### Exet v1.06, June 26, 2026
+
+- For English add a second word list, the "Nediger List" word list.
+- Add support for switching word lists among a set of fixed word lists.
+- The listing of available word lists is done through `the exetConfig`
+  object defined in exet.html.
+- Allow word list js files to be split into multiple files (mainly
+  to avoid the 25 MB limit on adding files to github repos via their
+  web interface). Each file is written to augment the `exetLexicon`
+  object creating it if it does not exist).
+- We keep the old way of loading word list files (through a single .js
+  file specified in a script tag), for exet-hindi.html and exet-brazilian.html.
+- Add support for scored word lists (as opposed to the Lufz lists that we've
+  been using, where the Wikipedia popularity of each entry was use to sort the
+  lists, but the popularity score itself was not included). In Nediger List,
+  we use the word scores manually curated by Will Nediger (25, 49, 51, and 99:
+  each one has specific meaning). In addition, I have augmented those scores
+  to contain a decimal part that reflects the word's Wikipedia popularity.
+- For word lists with scores, we let the user specify a minimum score
+  threshold instead of a minimum popularity percentile.
+  - When switching between word lists wit scores and word lists with only
+    popularity percentiles, we try to map the minimum threshold from one
+    to the other.
+- Add a modal "uiFreexer" element that ensures that the interface is kept
+  frozen when the user initiates a word list switch, until the switch is
+  complete. The uiFreezer element displays a waiting message such as 
+  "Changing the word list from Foo to Bar..."
+- Display popularity rank and score (the latter only for word lists with
+  scores) when an entry in the Fill Choices list is hovered over.
+- Word list choice is saved in Exet's state and persists when the page
+  is reloaded.
+- Tweak the proper-noun code to avoid calling phrases such as "I do" and
+  "I beg to differ" proper nouns, by adding a check for the "I <lowercase>..."
+  pattern.
+- Update code comments and documentation to use the term "word list" instead
+  of "lexicon" is most places.
+
 ### Exet v1.05.1, May 22, 2026
 
 - Make the long-fodder-warning icon a button, and when it's clicked, it

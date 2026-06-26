@@ -2,7 +2,7 @@
 
 ## A web app for crossword construction
 
-#### Version: Exet v1.05.1, May 22, 2026
+#### Version: Exet v1.06, June 26, 2026
 
 #### Author: Viresh Ratnakar
 
@@ -21,13 +21,17 @@ that enables interactive crossword solving in a browser.
 These are all the files needed from this repository:
 
 - [`exet.html`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/exet.html),
-- [`lufz-en-lexicon.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/lufz-en-lexicon.js),
-  - The above two files should be replaced by their language-specific variants, for the non-English
-    languages that Exet supports:
-  - Hindi:
+- One set from the following word list files should be used:
+  - English ("Lufz" word list):
+    - [`lufz-en-lexicon.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/lufz-en-lexicon.js),
+  - English ("Nediger List" word list):
+    - [`nediger-list-part-1.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/nediger-list-part-1.js),
+    - [`nediger-list-part-2.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/nediger-list-part-2.js),
+    - [`nediger-list-stems.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/nediger-list-stems.js),
+  - Hindi ("Lufz" word list):
     - [`exet-hindi.html`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/exet-hindi.html),
     - [`lufz-hi-lexicon.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/lufz-hi-lexicon.js),
-  - Portuguese (Brazilian):
+  - Portuguese (Brazilian) ("Lufz" word list):
     - [`exet-brazilian.html`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/exet-brazilian.html),
     - [`lufz-pt-br-lexicon.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/lufz-pt-br-lexicon.js),
 - [`exet.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/exet.js),
@@ -88,14 +92,18 @@ There's also a discussion group for the community:
 If you use Exet and like it, please consider posting links to it and/or writing
 reviews, to help spread the word.
 
-## Lexicon
+## Word List, aka, Lexicon
 
-### English
+For English, Exet provides two word list options that you can switch between
+(and it remembers your choice and sticks with it). You can do this from the
+"Word list" setting shown under the grid.
 
-The list of English words used by Exet for providing grid-fill suggestions
-is a modified version of the "UKACD" words list, which comes with its own
-copyight notice that is reproduced near the bottom of this page. I made the
-following modifications to the UKACD words list:
+### English: Lufz
+
+The "Lufz" list of English words used by Exet for providing grid-fill
+suggestions is a modified version of the "UKACD" words list, which comes with
+its own copyight notice that is reproduced near the bottom of this page. I made
+the following modifications to the UKACD words list:
 
 - Added a variety of words, idioms, proverbs collated from several web
   sources.
@@ -116,16 +124,44 @@ following modifications to the UKACD words list:
 - I have been periodically updating the lexicon, adding words and
   phrases scoured from various web sources.
 
+This list is sorted by popularity in Wikipedia, and the rank of an
+entry reflects its popularity (1 = highest).
+
+### English: Nediger List
+
+In June 2026, I added support for an additional word list, the
+["Nediger List"](https://codeberg.org/bewilderingly/Nediger-list),
+that has around 346,000 entries that were manually curated and scored by
+Will Nediger. I have not added or removed anything from this list (and
+will continue to update it periodically to keep it sync with its source).
+
+This list is better suited for U.S.-style crosswords. In particular, British
+spelling variants of common words (such as "honour") get a low score in this
+list.
+
+I have updated the scores used in this list. The original scores were from
+this set and with these semantics (paraphrased from Will Nediger's notes):
+
+- 25 (entries to use only if absolutely necessary)
+- 49 (entries that are likely too racy for many mainstream venues),
+- 51 (entries that can be used in most circumstances),
+- 99 (for up to 7 letters, entries that are very easy and/or inferable, and for 8 or more letters, entries that would be considered assets in many venues).
+
+In the version used by Exet, the entries are secondarily sorted by popularity
+of occurrences in Wikipedia's English-language articles (using a process
+similar to the one that I use for Lufz). The scores have been augmented by
+a decimal component (e.g., 51.42845) that captures the popularity ranking.
+
 ### Hindi
 
-The Hindi lexicon, including popularity scores and pronunciations, is
+The Hindi "Lufz" lexicon, including popularity scores and pronunciations, is
 taken from
 [Verma et al. (2020) Shabd: A Psycholinguistic Database for Hindi.
 (submitted).](https://osf.io/fygme/)
 
 ### Portuguese (Brazilian)
 
-The Portuguese (Brazilian) lexicon was assembled from the following sources:
+The Portuguese (Brazilian) "Lufz" lexicon was assembled from the following sources:
 
 - The entries come from
   [Dictionary collection in Portuguese (pt-BR)](https://github.com/fserb/pt-br)
@@ -145,8 +181,11 @@ The Portuguese (Brazilian) lexicon was assembled from the following sources:
 The `exetLexicon` JavaScript object can be set up in other apps too,
 by loading two script files.
 
-- One of these language-specific files:
+- One of these word-list-specific sets of files:
   - [`lufz-en-lexicon.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/lufz-en-lexicon.js)
+  - [`nediger-list-part-1.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/nediger-list-part-1.js),
+    [`nediger-list-part-2.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/nediger-list-part-2.js),
+    [`nediger-list-stems.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/nediger-list-stems.js)
   - [`lufz-hi-lexicon.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/lufz-hi-lexicon.js)
   - [`lufz-pt-br-lexicon.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/lufz-pt-br-lexicon.js)
 - [`exet-lexicon.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/exet-lexicon.js)
@@ -154,15 +193,15 @@ by loading two script files.
 This provides functionality such as getting anagrams, homophones, spoonerisms,
 and words/phrases matching a pattern.
 
-### Custom wordlists are *not* supported (*but*):
+### User-specified custom word lists are *not* supported (*but*):
 
 Exet is a webapp. Most of the memory usage comes from the large lexicon and
 supporting indices (for word look-ups, anagrams, pronunciations, etc.).
-Allowing users to point to a wordlist file of their own and have that be used
+Allowing users to point to a word list file of their own and have that be used
 instead of Exet's default lexicon *is* possible, in theory. It would bring in
 a whole bunch of additional complexity. Like, using `indexedDB` to store the
 base lexicon and variants, so that the user can switch between lexicons.
-Like, adding background workers to "prepare" a new wordlist before it can
+Like, adding background workers to "prepare" a new word list before it can
 be used, which would involve building indices, borrowing pronunciations from
 the base lexicon where possible, etc.). I did go down this path and was about
 60% done, before deciding to abandon it, in September 2025. I abandoned that
@@ -170,11 +209,17 @@ path primarily because of the substantial additional complexity (without
 commensurate pay-off, in my opinion).
 
 You can use the "preferred fills" feature as a substitute for full custom
-wordlists: just load your custom wordlist as the list of preferred fills,
+word lists: just load your custom word list as the list of preferred fills,
 and then set the minimum popularty threshold to 100% (which will prevent
 any words outside the preferred fills list from getting suggested or used
 in autofill). The only limitation is that you're limited to 50,000 words
 (which is probably sufficient for most users).
+
+Just like "Nediger List", I can add support for loading other word lists by
+processing it myself, creating indexed lexicon file(s) to load, and providing
+an option in the "Word list" menu. If you know of a suitable candidate, please
+let me know. I'll only do this for open-source lists with MIT Licenses or
+similar.
 
 ## Crossword construction walk-through
 
@@ -344,14 +389,17 @@ unless you explicitly add them.
 To the right of the fill suggestions table, near the top, you have some
 settings that control the nature of fill suggestions. These are:
 
-- A minimum "popularity" threshold. The lexicon ("Lufz-en-v0.09"), as of
-  March 2026, has 270,372 entries. Providing a popularity threshold
-  can be useful to avoid obscure words as well as to make autofill go faster.
+- A minimum "popularity" threshold (or "score" threshold, for word lists such
+  as Nediger List that have scores attached). The English word list "Lufz", as
+  of June 2026, has 270,372 entries and the English word list "Nediger List"
+  has 346,931 entries. Providing a popularity/score threshold can be useful
+  to avoid obscure words as well as to make autofill go faster.
   If you are an experienced setter, you may want to set this to 0 to see the
-  widest possible set of choices for each fill. This threshold is set to **80**
-  by default. Here's a guide to the number of entries that you will limit to, at
-  various thresholds (recall that popularity is derived from occurrences in
-  Wikipedia articles):
+  widest possible set of choices for each fill. This popularity threshold is
+  set to **80** by default (and the score threshold is also set at the 80th
+  %ile by default). Here's a guide to the number of entries that you will limit
+  to, at various thresholds, in the English Lufz word list (recall that
+  popularity is derived from occurrences in Wikipedia articles):
 
   | Threshold | #Entries | Last included entries    |
   |-----------|----------|--------------------------|
@@ -402,6 +450,9 @@ modified while such a sweep is going on. Grid-fill suggestions that lead
 to dead ends are moved to the bottom of the list and are shown with a purple
 background (and a warning tooltip).
 
+Hovering over a grid-fill suggestion will show its rank (and score, if
+available) in the word list.
+
 When Exet determines (using its lexicon) that for some unfilled cell, exactly
 one letter choice is viable, it shows that letter choice in gray. You can use
 the Edit > Autofill menu's "Accept autofilled entries" option to accept all
@@ -426,7 +477,7 @@ exclusions dismisses it.
 
 Note that if you specify preferred fills, and you set the minimum popularity
 threshold to 100%, then you are effectively using the preferred fills list
-as your custom wordlist, as no words outside of that list will be shown in
+as your custom word list, as no words outside of that list will be shown in
 fill suggestions or used in autofill.
 
 #### Light-specific menu
@@ -498,7 +549,7 @@ proper nouns and entries in the explicitly forbidden list, stem-dupes avoidance,
 light-specific regexp constraints) and the setting for allowing reversals. As
 noted earlier, if you've set min-popularity threshold to 100%, then you're
 effectively limiting autofill to words in the preferred fills list (i.e.,
-treating it like a custom wordlist).
+treating it like a custom word list).
 
 If Autofill fails, you can try to rerun it a few times. It may succeed
 on a subsequent run, because of the slight randomness in the choices that it
@@ -566,7 +617,7 @@ The "Web sources" button is shown in the grid-fill choices area (only for
 supported languages for which we have readily available web sources). This
 lets you see additional fill choices from some web sources (currently only
 for English). This may be a last-resort option to complete a grid-fill, when
-no word/phrase from the lexicon fits. You have to use your own judgment to
+no word/phrase from the word list fits. You have to use your own judgment to
 decide whether a word or phrase obtained from a web source is usable, as
 these matches may not necessarily be dictionary entries or common phrases.
 
@@ -576,7 +627,7 @@ that you may have specified.
 For English, the web sources made available are Nutrimatic, Onelook, and Qat.
 My personal experience is that Nutrimatic can sometimes find
 common-enough-to-be-fair-in-crosswords phrases that are missing from the
-lexicon.
+word list.
 
 After clicking on the "Web sources" button, you can dismiss the panel that
 appears by clicking anywhere outside it. Pressing the Escape key should also
@@ -777,7 +828,7 @@ top in each tab. These tabs are:
     the fodder that have not yet been used in the draft, as well
     as anagrams of any extra letters in the draft that are not present in the
     fodder. The suggested anagrams include multi-word anagrams. Since each
-    single letter is included as a word in the lexicon, the list of anagrams
+    single letter is included as a word in the word list, the list of anagrams
     shown also includes anagrams of the fodder with just one letter left
     out.
   - Anagrams components that are present intact as subtrings in the fodder
@@ -1285,7 +1336,7 @@ to add any of the following features.
 - Jigsaw puzzles
 - Submission link
 
-I hope to add direct support for other languages and lexicons to Exet,
+I hope to add support for more languages and word lists to Exet,
 at some point.
 
 ### Tips
@@ -1404,6 +1455,9 @@ details:
 
 ### UKACD18
 
+The original version of this list is available as
+[a gzipped txt file at the Quinapalus site](https://www.quinapalus.com/UKACD18plus.txt.gz).
+
 ```
 UKACD18
 Copyright (c) 2009 J Ross Beresford
@@ -1435,7 +1489,30 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
 
-### CMUdict
+### [Nediger List](https://codeberg.org/bewilderingly/Nediger-list),
+
+```
+MIT License
+
+Copyright (c) 2026 bewilderingly
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+associated documentation files (the "Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the
+following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial
+portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
+EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
+
+### [CMUdict](http://www.speech.cs.cmu.edu/cgi-bin/cmudict)
 
 ```
 CMUdict
@@ -1489,7 +1566,7 @@ word.
 ----------------------------------------------------------------------
 ```
 
-### Dictionary collection in Portuguese (pt-BR)
+### [Dictionary collection in Portuguese (pt-BR)](https://github.com/fserb/pt-br)
 
 ```
 MIT License
