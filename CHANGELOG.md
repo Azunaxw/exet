@@ -1,5 +1,28 @@
 # Changelog
 
+### Exet v1.07, July 12, 2026
+
+- Add support for indicating a regional preference for spellings, for both
+  the English lexicons ("Lufz" and "Nediger List").
+- The heavy-lifting for this is done in the lufz codebase, which now adds
+  regional variants swaps to the lexicon file as well as `dontBanish` lists
+  (see below).
+- When switching to a spellings region, we apply swaps in exetLexicon.lexicon[]
+  so that the regionally-preferred variant gets the higher rank/score. We also
+  update the lookup indices (for patterns, anagrams, phonemes) to take these
+  swaps into account.
+- The less-preferred variant is taken out of consideration, unless it is
+  retained via an entry in `dontBanish`. This mechanism is used, for example,
+  to allow both `realise` and `realize` be used when the spellings region is
+  "Britain".
+- The regional preference is now stored in exet's state.
+- Display each word's stem when it is hovered over, in the fill choices list.
+- Update the two English word lists. "Nediger List" uses the list updated
+  at the source site on July 9. "Lufz" adds new words scoured from various
+  dictionary updates. In addition, I went through a lot of 99-scoring
+  entries from Nediger List and added some of them. Mainly, I tried to keep out
+  common but non-dictionary words such as "Venmoed" and "sadpost".
+
 ### Exet v1.06, June 26, 2026
 
 - For English add a second word list, the "Nediger List" word list.

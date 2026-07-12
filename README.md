@@ -2,7 +2,7 @@
 
 ## A web app for crossword construction
 
-#### Version: Exet v1.06, June 26, 2026
+#### Version: Exet v1.07, July 12, 2026
 
 #### Author: Viresh Ratnakar
 
@@ -24,6 +24,7 @@ These are all the files needed from this repository:
 - One set from the following word list files should be used:
   - English ("Lufz" word list):
     - [`lufz-en-lexicon.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/lufz-en-lexicon.js),
+    - [`lufz-en-lexicon-stems.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/lufz-en-lexicon-stems.js),
   - English ("Nediger List" word list):
     - [`nediger-list-part-1.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/nediger-list-part-1.js),
     - [`nediger-list-part-2.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/nediger-list-part-2.js),
@@ -117,12 +118,14 @@ the following modifications to the UKACD words list:
 - Created an index of the lexicon suitable for use by my JavaScript
   code. Source code for the last few steps is available in my
   [Lufz GitHub repository](https://github.com/viresh-ratnakar/lufz).
-- I also added stemming info (offline, using the Porter2 algotithm
-  implementation in
-  [wink-porter2-stemmer](https://github.com/winkjs/wink-porter2-stemmer).
-  Details are in the Lufz README file.
+- I also added stemming info and regional spelling variants. Stemming info
+  is added using the Porter2 algotithm implementation in
+  [wink-porter2-stemmer](https://github.com/winkjs/wink-porter2-stemmer)
+  (but I added many more stemming overrides). Details are in the Lufz README
+  file.
 - I have been periodically updating the lexicon, adding words and
-  phrases scoured from various web sources.
+  phrases scoured from various web sources, and from 99-scoring entries
+  from "Nediger List".
 
 This list is sorted by popularity in Wikipedia, and the rank of an
 entry reflects its popularity (1 = highest).
@@ -131,13 +134,9 @@ entry reflects its popularity (1 = highest).
 
 In June 2026, I added support for an additional word list, the
 ["Nediger List"](https://codeberg.org/bewilderingly/Nediger-list),
-that has around 346,000 entries that were manually curated and scored by
+that now has 348,311 entries that were manually curated and scored by
 Will Nediger. I have not added or removed anything from this list (and
 will continue to update it periodically to keep it sync with its source).
-
-This list is better suited for U.S.-style crosswords. In particular, British
-spelling variants of common words (such as "honour") get a low score in this
-list.
 
 I have updated the scores used in this list. The original scores were from
 this set and with these semantics (paraphrased from Will Nediger's notes):
@@ -182,7 +181,8 @@ The `exetLexicon` JavaScript object can be set up in other apps too,
 by loading two script files.
 
 - One of these word-list-specific sets of files:
-  - [`lufz-en-lexicon.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/lufz-en-lexicon.js)
+  - [`lufz-en-lexicon.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/lufz-en-lexicon.js),
+    [`lufz-en-lexicon-stems.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/lufz-en-lexicon-stems.js)
   - [`nediger-list-part-1.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/nediger-list-part-1.js),
     [`nediger-list-part-2.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/nediger-list-part-2.js),
     [`nediger-list-stems.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/nediger-list-stems.js)
@@ -391,7 +391,7 @@ settings that control the nature of fill suggestions. These are:
 
 - A minimum "popularity" threshold (or "score" threshold, for word lists such
   as Nediger List that have scores attached). The English word list "Lufz", as
-  of June 2026, has 270,372 entries and the English word list "Nediger List"
+  of July 2026, has 286,585 entries and the English word list "Nediger List"
   has 346,931 entries. Providing a popularity/score threshold can be useful
   to avoid obscure words as well as to make autofill go faster.
   If you are an experienced setter, you may want to set this to 0 to see the
@@ -403,21 +403,41 @@ settings that control the nature of fill suggestions. These are:
 
   | Threshold | #Entries | Last included entries    |
   |-----------|----------|--------------------------|
-  |       0   | 270,372  | The bells of Hell go ting-a-ling-a-ling |
-  |       25  | 202,778  | Christmassy, glass jaws |
-  |       50  | 135,185  | cense, mayst |
-  |       60  | 108,148  | virtuously, monography, sanyasins |
-  |       70  |  81,110  | grandfather clock, difference engine |
-  |   **80**  |**54,073**|**wagtail, thallus, skaldic**        |
-  |       85  |  40,554  | Dead Sea Scrolls, private enterprise  |
-  |       90  |  27,036  | URL, Tess, kindly |
-  |       95  |  13,517  | insulin, right side, transmitting |
+  |       0   | 276,585  | neuralizing, sticherons |
+  |       25  | 214,938  | pierceable, In my beginning is my end |
+  |       50  | 143,292  | elegists, deck-hands |
+  |       60  | 114,633  | gardenias, commendators |
+  |       70  |  85,974  | piano man, railbed |
+  |   **80**  |**57,316**|**rounds on, Chirico, tsars** |
+  |       85  |  42,986  | in-box, lending library |
+  |       90  |  28,657  | natural science, deliberations, Wiesbaden |
+  |       95  |  14,328  | fragmentation, exclude, Josephine |
 
 - Whether to exclude proper nouns.
-- Whether to avoid reusing words with common stems. This option only works
+- Whether to avoid reusing words with common "stems". This option only works
   for English. It's ON by default. If, say SWIM has been picked as a grid
   entry, then this option precents SWIMS and SWIMMING getting suggested
   for other unfilled entries (as well as in autofill).
+  - Caveat: I have significantly expanded the notion of stemming beyond the
+    algorithm used in Porter Stemmer. Any heuristic stemming approach is always
+    going to be imperfect, and there are likely to be false positives as well
+    as false negatives. Please file a bug if you find a stem-deduplication
+    error, and I can try to fix it in the next version.
+  - You can see the stemmed form of the word, by hovering over it whenever it
+    is presented as a fill choice. The stemmed form is the highest ranked
+    word within the group of words that are deemed to have the same stem.
+  - You can also see the rank/score of a word in the word list too, when you
+    hover over it in the fill choices list.
+- For English, Exet also provides a "Spellings:" option to indicate a spellings
+  region preference. Currently, the choices are, "No preference", "Britain",
+  "US", "Canada". This swaps certain word pairs in the lexicon, so that
+  the regionally preferred variant gets ranked/scored higher, and also removes
+  the regionally non-preferred variant from consideration in finding pattern
+  matches through `getLexChoices()`. For example, "honor" will be used insted of
+  "honour" with "US", but vice-versa for "Britain"/"Canada". Please file bugs
+  if you notice any mistakes. The "No preference" option simply uses the
+  preference inherent in the word list's own ranking/scoring. For the Nediger
+  List, this results in low scores for "Britain" variants.
 - Whether to allow grid-fill suggestions (and autofill) to try to reverse
   lights (and linked lights). This is false be default for 2-D crosswords, and
   true by default for 3-D crosswords. When true, if there is a reversed
