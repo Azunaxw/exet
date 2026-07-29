@@ -2,7 +2,7 @@
 
 ## A web app for crossword construction
 
-#### Version: Exet v1.07, July 12, 2026
+#### Version: Exet v1.07.1, July 28, 2026
 
 #### Author: Viresh Ratnakar
 
@@ -830,7 +830,10 @@ database of published cryptic clues, for:
   phrases from the clue are searched for by default, but you can easily edit
   the SQL query to add any longer phrase that you may have used as an indicator.
 
-Similarly, we provide a link to **crosswordtracker.com** (a good database of mostly
+The "Research" tab also lets you research definition and cryptic wordplay ideas
+at [**Fodder** (fodder.ing)](https://fodder.ing).
+
+We also provide a link to **crosswordtracker.com** (a good database of mostly
 non-cryptic-crossword clues) for looking up published definitions. This too opens
 in a new tab.
 

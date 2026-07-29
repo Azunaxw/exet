@@ -1,5 +1,9 @@
 # Changelog
 
+### Exet v1.07.1, July 28, 2026
+
+- Add a "Research" link to fodder.ing (provides def/wordplay analysis).
+
 ### Exet v1.07, July 12, 2026
 
 - Add support for indicating a regional preference for spellings, for both
