@@ -1,5 +1,10 @@
 # Changelog
 
+### Exet v1.07.2, July 31, 2026
+
+- Merriam-Webster also does not allow embedding in iframes any more.
+  The enshittification of the web continues :-(.
+
 ### Exet v1.07.1, July 28, 2026
 
 - Add a "Research" link to fodder.ing (provides def/wordplay analysis).
