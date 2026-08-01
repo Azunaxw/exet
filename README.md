@@ -41,10 +41,6 @@ These are all the files needed from this repository:
 - [`exet.css`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/exet.css),
 - [`exet-lexicon.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/exet-lexicon.js),
 - [`exet-storage.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/exet-storage.js),
-- [`exet-nutrimatic.html`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/exet-nutrimatic.html)
-  (restyles Nutrimatic Hidden/Alternations/web-fill results),
-- [`nutrimatic-proxy.js`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/nutrimatic-proxy.js)
-  (optional local server that proxies Nutrimatic HTML for the restyler),
 - [`about-exet.html`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/about-exet.html),
 - [`exet-version.txt`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/exet-version.txt),
 - [`no-unches.png`](https://raw.githubusercontent.com/viresh-ratnakar/exet/master/no-unches.png),
@@ -907,15 +903,13 @@ top in each tab. These tabs are:
       <b>Tips on using nutrimatic.org for Hidden/Alternations</b>
     </summary>
 
-    - Exet restyles Nutrimatic results as a compact bulleted list (with
-      moderated font sizes) when you serve the app through
-      `node nutrimatic-proxy.js` (open `http://localhost:3080/exet.html`).
-      Without that proxy, Exet falls back to a scaled-down Nutrimatic iframe.
     - Hidden answer and Alternation searches in Exet are simply links
-      to nutrimatic searches. If these searches do not produce results,
-      or if you want to impose additional/different constraints, then
-      you may want to learn how to tweak the search queries (you can
-      edit them directly in the search box shown in Exet). Here's the
+      to nutrimatic searches (shown scaled down so Nutrimatic's large
+      score-based fonts are easier to skim). If these searches do not
+      produce results, or if you want to impose additional/different
+      constraints, then you may want to learn how to tweak the search
+      queries (you can edit them directly in the search box shown in
+      Exet). Here's the
       [relevant documentation on nutrimatic.org](https://nutrimatic.org/2024/usage.html).
     - The first thing to try is to click (repeatedly) on the "Try harder"
       link that is shown. In my experience, complex Alternations sometimes

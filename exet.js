@@ -2438,18 +2438,6 @@ Exet.prototype.trimUrl = function(url) {
   return url.substr(0, 97) + '...';
 }
 
-/**
- * Nutrimatic results use huge score-based font sizes that are hard to skim
- * inside Exet's iframes. Route those URLs through a same-origin restyler page
- * (exet-nutrimatic.html) while keeping the real nutrimatic.org link in the UI.
- */
-Exet.prototype.nutrimaticRestylerUrl = function(url) {
-  const m = String(url || '').match(
-      /^https?:\/\/(?:www\.)?nutrimatic\.org\/[^?]*\?(.*)$/i);
-  if (!m) return null;
-  return 'exet-nutrimatic.html?' + m[1];
-}
-
 Exet.prototype.loadIframe = function(iframe, url, urlElt) {
   const trimmedUrl = this.trimUrl(url);
   urlElt.innerText = trimmedUrl;
@@ -2457,7 +2445,14 @@ Exet.prototype.loadIframe = function(iframe, url, urlElt) {
       'beforeend',
       ' <span class="xet-iframe-loading">Loading...</span>');
   urlElt.href = url;
-  iframe.src = this.nutrimaticRestylerUrl(url) || url;
+  /* Nutrimatic uses huge score-based fonts; shrink those iframes via CSS.
+   * Cross-origin pages can't be rewritten into a bullet list without a proxy. */
+  if (/^https?:\/\/(?:www\.)?nutrimatic\.org\//i.test(url)) {
+    iframe.classList.add('xet-nutrimatic-iframe');
+  } else {
+    iframe.classList.remove('xet-nutrimatic-iframe');
+  }
+  iframe.src = url;
   iframe.onload = () => {
     urlElt.innerText = trimmedUrl;
   };
@@ -4136,6 +4131,12 @@ Exet.prototype.resizeRHS = function() {
     Math.max(580, windowW - 52 - Math.floor(gridPanelBox.width));
   const sectionW = frameW - 16;
   const halfSectionW = Math.floor(sectionW / 2) - 16;
+  const sectionH = 410 + extraH;
+  /* Compensate zoom so Nutrimatic iframes keep the same on-page footprint. */
+  const nutriZoom = 0.55;
+  const nutriSectionW = Math.floor(sectionW / nutriZoom);
+  const nutriHalfSectionW = Math.floor(halfSectionW / nutriZoom);
+  const nutriSectionH = Math.floor(sectionH / nutriZoom);
   const cluesW = frameW - 320;
   this.fillSettings.style.width = '' + cluesW + 'px';
   let style = `
@@ -4151,7 +4152,7 @@ Exet.prototype.resizeRHS = function() {
     }
     .xet-half-section,
     .xet-section {
-      height: ${410 + extraH}px;
+      height: ${sectionH}px;
     }
     #xet-light-choices-box,
     .xet-clues-panel,
@@ -4163,6 +4164,16 @@ Exet.prototype.resizeRHS = function() {
     }
     .xet-half-section {
       width: ${halfSectionW}px;
+    }
+    .xet-nutrimatic-iframe.xet-section {
+      width: ${nutriSectionW}px;
+      height: ${nutriSectionH}px;
+      zoom: ${nutriZoom};
+    }
+    .xet-nutrimatic-iframe.xet-half-section {
+      width: ${nutriHalfSectionW}px;
+      height: ${nutriSectionH}px;
+      zoom: ${nutriZoom};
     }
     .xet-frame {
       width: ${frameW}px;

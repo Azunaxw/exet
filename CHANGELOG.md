@@ -3,11 +3,8 @@
 ### Exet v1.07.3, August 1, 2026
 
 - Improve appearance of Nutrimatic results used by Hidden, Alternations, and
-  the Nutrimatic web-fill source: show a compact bulleted list with moderated
-  font sizes instead of Nutrimatic's huge score-based type. Requires serving
-  Exet via `node nutrimatic-proxy.js` (or another host that exposes
-  `GET /api/nutrimatic`); without the proxy, Exet falls back to a scaled-down
-  Nutrimatic iframe.
+  the Nutrimatic web-fill source by scaling those iframes down (Nutrimatic's
+  score-based fonts are otherwise huge). Purely client-side; no proxy/server.
 
 ### Exet v1.07.2, July 31, 2026
 
