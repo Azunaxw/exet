@@ -1,5 +1,14 @@
 # Changelog
 
+### Exet v1.07.3, August 1, 2026
+
+- Improve appearance of Nutrimatic results used by Hidden, Alternations, and
+  the Nutrimatic web-fill source: show a compact bulleted list with moderated
+  font sizes instead of Nutrimatic's huge score-based type. Requires serving
+  Exet via `node nutrimatic-proxy.js` (or another host that exposes
+  `GET /api/nutrimatic`); without the proxy, Exet falls back to a scaled-down
+  Nutrimatic iframe.
+
 ### Exet v1.07.2, July 31, 2026
 
 - Merriam-Webster also does not allow embedding in iframes any more.

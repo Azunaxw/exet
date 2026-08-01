@@ -851,3 +851,9 @@ body {
   cursor: pointer;
   font-weight: bold;
 }
+/* Nutrimatic restyler is mostly self-contained in exet-nutrimatic.html;
+   keep iframe sections readable when that page is embedded. */
+iframe.xet-iframe[src*="exet-nutrimatic.html"],
+iframe.xet-web-fills-iframe[src*="exet-nutrimatic.html"] {
+  background: #fff;
+}
