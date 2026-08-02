@@ -3667,6 +3667,31 @@ Exet.prototype.nutrRevHiddenParam = function(s) {
          '"' + sL[last] + 'A"A*';
 }
 
+/** Nutrimatic-specific maker: first letters of successive words */
+Exet.prototype.nutrAcrosticParam = function(s) {
+  const sL = exetLexicon.lcLettersOf(s);
+  if (sL.length < 1) return s;
+  return '"' + sL.map(c => c + 'A*').join('%20') + '"';
+}
+
+/** Nutrimatic-specific maker: first+last letters of successive words.
+ * Odd-length answers end with a one-letter word for the leftover letter.
+ */
+Exet.prototype.nutrTerminalsParam = function(s) {
+  const sL = exetLexicon.lcLettersOf(s);
+  if (sL.length < 2) return s;
+  const parts = [];
+  let i = 0;
+  while (i + 1 < sL.length) {
+    parts.push(sL[i] + 'A*' + sL[i + 1]);
+    i += 2;
+  }
+  if (i < sL.length) {
+    parts.push(sL[i]);
+  }
+  return '"' + parts.join('%20') + '"';
+}
+
 /** Nutrimatic-specific maker for finding grid-fills */
 Exet.prototype.nutrFillParam = function(s) {
   return s.toLowerCase().replace(/\?/g, 'A');
@@ -3693,6 +3718,10 @@ Exet.prototype.getNamedMaker = function(name) {
     return this.nutrAlternationParam;
   } else if (name == 'Nutrimatic-RevAlternation') {
     return this.nutrRevAlternationParam;
+  } else if (name == 'Nutrimatic-Acrostic') {
+    return this.nutrAcrosticParam;
+  } else if (name == 'Nutrimatic-Terminals') {
+    return this.nutrTerminalsParam;
   } else if (name == 'Nutrimatic-Fill') {
     return this.nutrFillParam;
   } else if (name == 'Qat-Fill') {
