@@ -1,6 +1,6 @@
 # Changelog
 
-### Exet v1.07.3, August 1, 2026
+### Exet v1.07.4, August 2, 2026
 
 - Improve appearance of Nutrimatic results used by Hidden, Alternations, and
   the Nutrimatic web-fill source by scaling those iframes down (Nutrimatic's
