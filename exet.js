@@ -3674,7 +3674,8 @@ Exet.prototype.nutrAcrosticParam = function(s) {
   return '"' + sL.map(c => c + 'A*').join('%20') + '"';
 }
 
-/** Nutrimatic-specific maker: first+last letters of successive words.
+/** 
+ * Nutrimatic-specific maker: first+last letters of successive words.
  * Odd-length answers end with a one-letter word for the leftover letter.
  */
 Exet.prototype.nutrTerminalsParam = function(s) {

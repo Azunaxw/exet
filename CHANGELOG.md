@@ -1,5 +1,9 @@
 # Changelog
 
+### Exet v1.07.6, August 11, 2026
+- Add tab for Acrostics and Terminal Acrostics via Nutrimatics
+- e.g. "Empress Xian established the (EXET) foremost (acrostic indicator) crossword application (definition)"
+
 ### Exet v1.07.5, August 2, 2026
 
 - Add Open English Wordnet as a Research source.
