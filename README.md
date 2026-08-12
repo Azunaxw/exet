@@ -899,10 +899,11 @@ top in each tab. These tabs are:
   "alternation" and "reversed alternation" wordplays for the entry in the
   current light.
 - **Acrostics**: Uses [nutrimatic.org](https://nutrimatic.org) to show
-  "acrostic" (initials of successive words) and "terminals" (first and last
+  "acrostic" (initials of successive words), "tail acrostic" (final letters
+  of successive words, aka telestichs), and "both ends" (first and last
   letters of successive words) wordplays for the entry in the current light.
-  For odd-length terminals, the leftover letter is a one-letter word at the
-  end of the query (you can move it if you prefer it elsewhere).
+  For odd-length both-ends answers, the leftover letter is a one-letter word
+  at the end of the query (you can move it if you prefer it elsewhere).
 
   <details>
     <summary>
