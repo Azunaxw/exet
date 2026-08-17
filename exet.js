@@ -4887,6 +4887,10 @@ Exet.prototype.makeClueEditable = function() {
         class="xlv-small-button xlv-nextprev"
         title="${this.puz.textLabels['curr-clue-next.hover']}"
           >${this.puz.textLabels['curr-clue-next']}</button>
+      <button id="xet-jump-constrained"
+        class="xlv-small-button xet-nextprev"
+        title="Jump to the most constrained empty cell"
+          >◎</button>
       `;
   this.clueMenuButton = document.getElementById('xet-clue-menu-button');
   this.clueMenu = document.getElementById('xet-clue-menu');
@@ -4901,6 +4905,11 @@ Exet.prototype.makeClueEditable = function() {
   this.nextButton = document.getElementById('xet-next');
   this.nextButton.addEventListener('click', e => {
     exet.puz.cnavNext();
+  });
+  this.jumpConstrainedButton = document.getElementById('xet-jump-constrained');
+  this.jumpConstrainedButton.addEventListener('click', e => {
+    this.jumpToMostConstrained();
+    e.stopPropagation();
   });
   const clueMenuLinking = document.getElementById('xet-clue-menu-linking');
   const clueMenuRegexp = document.getElementById('xet-clue-menu-regexp');
@@ -6941,6 +6950,48 @@ Exet.prototype.getClueToCheckDeadends = function(ci=null) {
     }
   }
   return res;
+}
+
+/**
+ * Find the empty cell with the lowest viability (0 = dead/purple first).
+ * Ties break on fewer letter choices.
+ * @return {?number[]} [row, col] or null if none
+ */
+Exet.prototype.findMostConstrainedCell = function() {
+  if (!this.puz || !this.fillState) {
+    return null;
+  }
+  let best = null;
+  let bestViab = 6;
+  let bestChoices = exetLexicon.letters.length + 1;
+  for (let i = 0; i < this.fillState.gridHeight; i++) {
+    for (let j = 0; j < this.fillState.gridWidth; j++) {
+      const gridCell = this.puz.grid[i][j];
+      if (!gridCell.isLight || gridCell.solution != '?') {
+        continue;
+      }
+      const fillCell = this.fillState.grid[i][j];
+      const viab = fillCell.viability;
+      const numChoices = Object.keys(fillCell.cChoices).length;
+      if (viab < bestViab ||
+          (viab === bestViab && numChoices < bestChoices)) {
+        bestViab = viab;
+        bestChoices = numChoices;
+        best = [i, j];
+      }
+    }
+  }
+  return best;
+}
+
+/** Jump grid focus to the most constrained empty cell. @return {boolean} */
+Exet.prototype.jumpToMostConstrained = function() {
+  const cell = this.findMostConstrainedCell();
+  if (!cell) {
+    return false;
+  }
+  this.puz.cellActivator(cell[0], cell[1]);
+  return true;
 }
 
 Exet.prototype.updateSweepInd = function() {
