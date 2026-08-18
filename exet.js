@@ -159,6 +159,11 @@ function Exet() {
   this.longInputLagMS = 2000;
   this.sweepMS = 500;
 
+  // State for "jump to most constrained" (key 0 / ◎ button).
+  this.jumpConstrainedLastAt = 0;
+  this.jumpConstrainedViaFeature = false;
+  this.jumpConstrainedJumping = false;
+
   // Params for light choices shown.
   this.sweepMaxChoices = 5000;
   this.sweepMaxChoicesSmall = 4;
@@ -1050,6 +1055,11 @@ Exet.prototype.makeExetTab = function() {
           <div title="Accept all current autofilled entries"
               class="xet-dropdown-item" onclick="exet.acceptAll()">
             Accept autofilled entries (=)
+          </div>
+          <div title="Jump to the most constrained empty cell"
+              class="xet-dropdown-item"
+              onclick="exet.jumpToMostConstrained()">
+            Jump to most constrained cell (0)
           </div>
           <hr>
 
@@ -4060,6 +4070,9 @@ Exet.prototype.replaceHandlers = function() {
     exet.activateCellSaved = exet.puz.activateCell;
     return function() {
       let ret = exet.activateCellSaved.apply(exet.puz, arguments);
+      if (!exet.jumpConstrainedJumping) {
+        exet.jumpConstrainedViaFeature = false;
+      }
       let gridCell = exet.puz.currCell()
       if (gridCell && !gridCell.isLight && gridCell.darkness) {
         exet.navDarkness(exet.puz.currRow, exet.puz.currCol);
@@ -4889,7 +4902,7 @@ Exet.prototype.makeClueEditable = function() {
           >${this.puz.textLabels['curr-clue-next']}</button>
       <button id="xet-jump-constrained"
         class="xlv-small-button xet-nextprev"
-        title="Jump to the most constrained empty cell"
+        title="Jump to the most constrained empty cell (0). Press again within 1s to cycle to the next most constrained cell."
           >◎</button>
       `;
   this.clueMenuButton = document.getElementById('xet-clue-menu-button');
@@ -5296,6 +5309,10 @@ Exet.prototype.handleKeyDown = function(e) {
   let key = e.key || e;
   if (key == '=') {
     this.acceptAll();
+    return;
+  }
+  if (key == '0') {
+    this.jumpToMostConstrained();
     return;
   }
   let gridCell = this.puz.currCell();
@@ -6953,17 +6970,16 @@ Exet.prototype.getClueToCheckDeadends = function(ci=null) {
 }
 
 /**
- * Find the empty cell with the lowest viability (0 = dead/purple first).
- * Ties break on fewer letter choices.
- * @return {?number[]} [row, col] or null if none
+ * Return empty cells sorted from most to least constrained.
+ * Primary sort: viability (0 = dead/purple first). Ties break on fewer letter
+ * choices, then row, then column.
+ * @return {{row: number, col: number, viab: number, numChoices: number}[]}
  */
-Exet.prototype.findMostConstrainedCell = function() {
+Exet.prototype.findConstrainedCellsSorted = function() {
   if (!this.puz || !this.fillState) {
-    return null;
+    return [];
   }
-  let best = null;
-  let bestViab = 6;
-  let bestChoices = exetLexicon.letters.length + 1;
+  const cells = [];
   for (let i = 0; i < this.fillState.gridHeight; i++) {
     for (let j = 0; j < this.fillState.gridWidth; j++) {
       const gridCell = this.puz.grid[i][j];
@@ -6971,26 +6987,68 @@ Exet.prototype.findMostConstrainedCell = function() {
         continue;
       }
       const fillCell = this.fillState.grid[i][j];
-      const viab = fillCell.viability;
-      const numChoices = Object.keys(fillCell.cChoices).length;
-      if (viab < bestViab ||
-          (viab === bestViab && numChoices < bestChoices)) {
-        bestViab = viab;
-        bestChoices = numChoices;
-        best = [i, j];
-      }
+      cells.push({
+        row: i,
+        col: j,
+        viab: fillCell.viability,
+        numChoices: Object.keys(fillCell.cChoices).length,
+      });
     }
   }
-  return best;
+  cells.sort((a, b) => {
+    if (a.viab !== b.viab) {
+      return a.viab - b.viab;
+    }
+    if (a.numChoices !== b.numChoices) {
+      return a.numChoices - b.numChoices;
+    }
+    if (a.row !== b.row) {
+      return a.row - b.row;
+    }
+    return a.col - b.col;
+  });
+  return cells;
 }
 
-/** Jump grid focus to the most constrained empty cell. @return {boolean} */
+/**
+ * Find the empty cell with the lowest viability (0 = dead/purple first).
+ * Ties break on fewer letter choices.
+ * @return {?number[]} [row, col] or null if none
+ */
+Exet.prototype.findMostConstrainedCell = function() {
+  const cells = this.findConstrainedCellsSorted();
+  return cells.length ? [cells[0].row, cells[0].col] : null;
+}
+
+/**
+ * Jump grid focus to the most constrained empty cell. If pressed again within
+ * 1s while still on a cell reached this way, jump to the next cell in the
+ * sorted list (wrapping around).
+ * @return {boolean}
+ */
 Exet.prototype.jumpToMostConstrained = function() {
-  const cell = this.findMostConstrainedCell();
-  if (!cell) {
+  const cells = this.findConstrainedCellsSorted();
+  if (!cells.length) {
     return false;
   }
-  this.puz.cellActivator(cell[0], cell[1]);
+  const now = Date.now();
+  let index = 0;
+  if (this.jumpConstrainedViaFeature &&
+      (now - this.jumpConstrainedLastAt) < 1000 &&
+      this.puz.currCell()) {
+    const row = this.puz.currRow;
+    const col = this.puz.currCol;
+    const currIndex = cells.findIndex(c => c.row === row && c.col === col);
+    if (currIndex >= 0) {
+      index = (currIndex + 1) % cells.length;
+    }
+  }
+  const cell = cells[index];
+  this.jumpConstrainedJumping = true;
+  this.puz.cellActivator(cell.row, cell.col);
+  this.jumpConstrainedJumping = false;
+  this.jumpConstrainedViaFeature = true;
+  this.jumpConstrainedLastAt = now;
   return true;
 }
 
