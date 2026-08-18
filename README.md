@@ -2,7 +2,7 @@
 
 ## A web app for crossword construction
 
-#### Version: Exet v1.07.6, August 11, 2026
+#### Version: Exet v1.08.1, August 11, 2026
 
 #### Author: Viresh Ratnakar
 
@@ -282,10 +282,9 @@ The "New" menu allows you to start with several "new grid" options:
 After creating a grid, you can customize it by manually adding/removing
 blocks/bars, or by letting the software "automagically" add blocks.
 
-You can also create a 3-D grid from the "Open" menu once the **3-D
-crosswords** plugin is enabled (see [Plugins](#plugins) below). In a 3-D grid,
-there are multiple "layers," with "down" clues running through the layers and
-"across" and "away" clues within the layers. See the
+You can also create a 3-D grid from the "New" menu. In a 3-D grid, there are
+multiple "layers," with "down" clues running through the layers and "across"
+and "away" clues within the layers. See the
 [Exolve documentation](https://github.com/viresh-ratnakar/exolve/blob/master/README.md)
 for details on 3-D crosswords.
 
@@ -307,7 +306,7 @@ autofilling it, and adding/modifying crossword features such as ninas:
 - Autofill
   - _Leads to an autofill options panel._
 - Accept autofilled entries (=)
-- Jump to most constrained cell (0)
+- Jump to most constrained light (0)
 - Mark grid cell:
   - Toggle encircling (@)
   - Toggle marking prefilled (!)
@@ -460,14 +459,15 @@ lexicon source to find a word/phrase that works. Instead of filling in lots
 of large purple viablots, only a few are coloured in a stand-out fashion, and
 the rest are coloured in a non-distracting, near-transparent manner.
 
-To jump quickly to the most constrained empty cell, press **0** in the grid
+To jump quickly to the most constrained unfilled light, press **0** in the grid
 (or click the **◎** button next to the previous/next-clue buttons above the
-current clue). Empty cells are sorted by constraint level—dead-end cells
-(purple viablots) first, then by how few letter choices remain—and focus moves
-to the top of that list. If you press **0** again within one second while
-still on a cell you reached this way, focus moves to the next cell in the
-list (successively less constrained), wrapping around to the most constrained
-again after the last entry. Navigating away manually resets this cycling.
+current clue). Unfilled lights are sorted by how few viable fill suggestions
+remain—lights with no viable fills (shown with a purple background in the
+suggestions list) come first—and focus moves to the top of that list. If you
+press **0** again within one second while still on a light you reached this
+way, focus moves to the next light in the list (successively less constrained),
+wrapping around to the most constrained again after the last entry. Navigating
+to a different light manually resets this cycling.
 
 The grid-fill suggestions shown for a light take into account a limited
 amount of look-ahead. What that means is that the software evaluates
@@ -515,11 +515,11 @@ fill suggestions or used in autofill.
 Just above the editable version of the current clue (shown above the grid),
 there are four buttons shown. The first one has a hamburger menu (&#9776;)
 and the other three are for navigating to the previous clue, the next clue,
-and the most constrained empty cell (◎, keyboard shortcut **0**).
+and the most constrained unfilled light (◎, keyboard shortcut **0**).
 
 The **◎** button (or **0** in the grid) jumps focus to the most constrained
-empty cell—see the viablots discussion above for how constraint is measured. Pressing **0** or **◎** again within one second cycles to the next
-most constrained cell.
+unfilled light—see above for how constraint is measured. Pressing **0** or **◎**
+again within one second cycles to the next most constrained light.
 
 The hamburger menu provides convenient access to a few features that are
 available from other places (linking/unlinking, clearing, reversing). It
@@ -1394,26 +1394,6 @@ Clicking on the "Tips" button in the Exet tab shows you one useful tip at a
 time, and lets you cycle through the available tips or jump to a random one.
 Occasionally, a tip may get proactively surfaced, if the software deems it
 to be very relevant to some recent action that you took.
-
-### Plugins
-
-Exet can be extended with plugins. Support for individual plugins goes to
-their authors; only the plugin *infrastructure* is maintained in Exet core.
-
-Open Exet, go to **Edit → Plugins**, enable the plugins you want, and reload
-the page.
-
-If you cloned Exet from git, initialize third-party plugins with:
-
-```bash
-git submodule update --init plugins/ians_exet_plugins
-```
-
-If a puzzle requires a plugin that is not enabled, Exet will prompt you to
-enable it and reload.
-
-To write plugins or add a plugin group, see
-[plugins/README.md](plugins/README.md).
 
 ## Notes and acknowledgements
 
