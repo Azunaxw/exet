@@ -1060,7 +1060,7 @@ Exet.prototype.makeExetTab = function() {
           <div title="Jump to the most constrained unfilled light"
               class="xet-dropdown-item"
               onclick="exet.jumpToMostConstrained()">
-            Jump to most constrained light (0)
+            Jump to most constrained light (0), repeat to navigate to successively less constrained lights
           </div>
           <hr>
 
