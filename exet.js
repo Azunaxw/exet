@@ -90,7 +90,7 @@ ExetModals.prototype.hide = function() {
 }
 
 function Exet() {
-  this.version = 'v1.08, August 15, 2026';
+  this.version = 'v1.08.1, August 19, 2026';
   this.puz = null;
   this.prefix = '';
   this.suffix = '';
