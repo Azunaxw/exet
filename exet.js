@@ -1057,10 +1057,10 @@ Exet.prototype.makeExetTab = function() {
               class="xet-dropdown-item" onclick="exet.acceptAll()">
             Accept autofilled entries (=)
           </div>
-          <div title="Jump to the most constrained unfilled light"
+          <div title="Jump to the most constrained unfilled light. Repeat within ${Math.round(this.longInputLagMS/1000)}s to navigate to successively less constrained lights"
               class="xet-dropdown-item"
               onclick="exet.jumpToMostConstrained()">
-            Jump to most constrained light (!), repeat to navigate to successively less constrained lights
+            Jump through most constrained unfilled lights (!)
           </div>
           <hr>
 
@@ -4906,7 +4906,7 @@ Exet.prototype.makeClueEditable = function() {
           >${this.puz.textLabels['curr-clue-next']}</button>
       <button id="xet-jump-constrained"
         class="xlv-small-button xet-nextprev"
-        title="Jump to the most constrained unfilled light (!). Press again within 1s to cycle to the next most constrained light."
+        title="Jump to the most constrained unfilled light (!). Press again within ${Math.round(this.longInputLagMS/1000)}s to cycle to the next most constrained light."
           >!</button>
       `;
   this.clueMenuButton = document.getElementById('xet-clue-menu-button');
@@ -7008,8 +7008,8 @@ Exet.prototype.findConstrainedCluesSorted = function() {
 
 /**
  * Jump focus to the most constrained unfilled light. If pressed again within
- * 1s while still on a light reached this way, jump to the next light in the
- * sorted list (wrapping around).
+ * longInputLagMS while still on a light reached this way, jump to the next
+ * light in the sorted list (wrapping around).
  * @return {boolean}
  */
 Exet.prototype.jumpToMostConstrained = function() {
@@ -7020,7 +7020,7 @@ Exet.prototype.jumpToMostConstrained = function() {
   const now = Date.now();
   let index = 0;
   if (this.jumpConstrainedViaFeature &&
-      (now - this.jumpConstrainedLastAt) < 1000) {
+      (now - this.jumpConstrainedLastAt) < this.longInputLagMS) {
     const currCi = this.currClueIndex();
     const currIndex = clues.findIndex(c => c.ci === currCi);
     if (currIndex >= 0) {

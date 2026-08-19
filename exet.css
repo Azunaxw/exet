@@ -211,11 +211,6 @@ body {
   border: 1px solid lightgray;
   vertical-align: text-top;
 }
-#xet-jump-constrained {
-  font-size: 15px;
-  line-height: 1;
-  padding: 0 4px;
-}
 #xet-unlink {
   padding: 4px;
 }

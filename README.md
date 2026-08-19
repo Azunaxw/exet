@@ -306,10 +306,10 @@ autofilling it, and adding/modifying crossword features such as ninas:
 - Autofill
   - _Leads to an autofill options panel._
 - Accept autofilled entries (=)
-- Jump to most constrained light (0)
+- Jump to most constrained light (!)
 - Mark grid cell:
   - Toggle encircling (@)
-  - Toggle marking prefilled (!)
+  - Toggle marking prefilled (0)
   - Toggle nina ($)
   - Toggle colouring (^)
   - Clear all markings!
@@ -464,7 +464,7 @@ To jump quickly to the most constrained unfilled light, press **!**
 current clue). Unfilled lights are sorted by how few viable fill suggestions
 remain—lights with no viable fills (shown with a purple background in the
 suggestions list) come first—and focus moves to the top of that list. If you
-press **!** again within one second while still on a light you reached this
+press **!** again within two seconds while still on a light you reached this
 way, focus moves to the next light in the list (successively less constrained),
 wrapping around to the most constrained again after the last entry. Navigating
 to a different light manually resets this cycling.
@@ -519,7 +519,7 @@ and the most constrained unfilled light (!, keyboard shortcut **!**).
 
 The **!** button (or **!** while in the grid) jumps focus to the most constrained
 unfilled light—see above for how constraint is measured. Pressing **!**
-again within one second cycles to the next most constrained light.
+again within two seconds cycles to the next most constrained light.
 
 The hamburger menu provides convenient access to a few features that are
 available from other places (linking/unlinking, clearing, reversing). It
