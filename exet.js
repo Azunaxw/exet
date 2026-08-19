@@ -1060,7 +1060,7 @@ Exet.prototype.makeExetTab = function() {
           <div title="Jump to the most constrained unfilled light"
               class="xet-dropdown-item"
               onclick="exet.jumpToMostConstrained()">
-            Jump to most constrained light (0), repeat to navigate to successively less constrained lights
+            Jump to most constrained light (!), repeat to navigate to successively less constrained lights
           </div>
           <hr>
 
@@ -1074,8 +1074,8 @@ Exet.prototype.makeExetTab = function() {
               </div>
               <div class="xet-dropdown-subitem"
                 title="Toggle marking cell prefilled"
-                onclick="exet.handleKeyDown('!')">
-                Toggle marking prefilled (!)
+                onclick="exet.handleKeyDown('0')">
+                Toggle marking prefilled (0)
               </div>
               <div class="xet-dropdown-subitem" id="xet-toggle-nina"
                   title="Toggle marking cell/light as part of a nina">
@@ -4906,8 +4906,8 @@ Exet.prototype.makeClueEditable = function() {
           >${this.puz.textLabels['curr-clue-next']}</button>
       <button id="xet-jump-constrained"
         class="xlv-small-button xet-nextprev"
-        title="Jump to the most constrained unfilled light (0). Press again within 1s to cycle to the next most constrained light."
-          >◎</button>
+        title="Jump to the most constrained unfilled light (!). Press again within 1s to cycle to the next most constrained light."
+          >!</button>
       `;
   this.clueMenuButton = document.getElementById('xet-clue-menu-button');
   this.clueMenu = document.getElementById('xet-clue-menu');
@@ -5315,7 +5315,7 @@ Exet.prototype.handleKeyDown = function(e) {
     this.acceptAll();
     return;
   }
-  if (key == '0') {
+  if (key == '!') {
     this.jumpToMostConstrained();
     return;
   }
@@ -5337,7 +5337,7 @@ Exet.prototype.handleKeyDown = function(e) {
 
   let revType = exetRevManager.REV_GRID_CHANGE;
 
-  if (key == '!' && gridCell.solution != '?') {
+  if (key == '0' && gridCell.solution != '?') {
     revType = exetRevManager.REV_METADATA_CHANGE;
     gridCell.prefill = !gridCell.prefill;
   } else if (key == '@') {
