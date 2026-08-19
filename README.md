@@ -459,12 +459,12 @@ lexicon source to find a word/phrase that works. Instead of filling in lots
 of large purple viablots, only a few are coloured in a stand-out fashion, and
 the rest are coloured in a non-distracting, near-transparent manner.
 
-To jump quickly to the most constrained unfilled light, press **0** in the grid
-(or click the **◎** button next to the previous/next-clue buttons above the
+To jump quickly to the most constrained unfilled light, press **!** 
+(or click the **!** button next to the previous/next-clue buttons above the
 current clue). Unfilled lights are sorted by how few viable fill suggestions
 remain—lights with no viable fills (shown with a purple background in the
 suggestions list) come first—and focus moves to the top of that list. If you
-press **0** again within one second while still on a light you reached this
+press **!** again within one second while still on a light you reached this
 way, focus moves to the next light in the list (successively less constrained),
 wrapping around to the most constrained again after the last entry. Navigating
 to a different light manually resets this cycling.
@@ -515,10 +515,10 @@ fill suggestions or used in autofill.
 Just above the editable version of the current clue (shown above the grid),
 there are four buttons shown. The first one has a hamburger menu (&#9776;)
 and the other three are for navigating to the previous clue, the next clue,
-and the most constrained unfilled light (◎, keyboard shortcut **0**).
+and the most constrained unfilled light (!, keyboard shortcut **!**).
 
-The **◎** button (or **0** in the grid) jumps focus to the most constrained
-unfilled light—see above for how constraint is measured. Pressing **0** or **◎**
+The **!** button (or **!** while in the grid) jumps focus to the most constrained
+unfilled light—see above for how constraint is measured. Pressing **!**
 again within one second cycles to the next most constrained light.
 
 The hamburger menu provides convenient access to a few features that are
